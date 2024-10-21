@@ -3,17 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat GUI</title>
+    <title>Messaging App</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="chat-container">
-        <div class="chat-box" id="chat-box">
-            <!-- Chat messages will appear here -->
+
+    <div id="login-page" class="login-container">
+        <h2>Login</h2>
+        <input type="text" id="username-input" placeholder="Enter your username" required>
+        <button id="login-btn">Login</button>
+    </div>
+
+    <div id="app-page" class="app-container" style="display: none;">
+        <header>
+            <h1>Messaging App</h1>
+            <button id="dark-mode-toggle">Toggle Dark Mode</button>
+        </header>
+
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search for a user...">
+            <button id="search-btn">Search</button>
         </div>
-        <div class="input-area">
-            <input type="text" id="message-input" placeholder="Type a message..." autofocus>
-            <button id="send-btn">Send</button>
+
+        <div id="user-results" class="user-results"></div>
+
+        <div class="dm-container" id="dm-container" style="display: none;">
+            <h3>Direct Message with <span id="dm-user"></span></h3>
+            <div class="chat-box" id="chat-box"></div>
+            <div class="input-area">
+                <input type="text" id="dm-input" placeholder="Type a message...">
+                <button id="dm-send-btn">Send</button>
+            </div>
         </div>
     </div>
 
