@@ -1,102 +1,67 @@
-/* Global styles */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: white;
-    transition: background-color 0.3s, color 0.3s;
+// Basic users data for search functionality
+const users = ['alice', 'bob', 'charlie', 'david'];
+
+// Event listener for login
+document.getElementById('login-btn').addEventListener('click', function() {
+    const username = document.getElementById('username-input').value.trim();
+    if (username) {
+        document.getElementById('login-page').style.display = 'none';
+        document.getElementById('app-page').style.display = 'block';
+    }
+});
+
+// Search user functionality
+document.getElementById('search-btn').addEventListener('click', function() {
+    const searchQuery = document.getElementById('search-input').value.trim().toLowerCase();
+    const userResults = document.getElementById('user-results');
+    userResults.innerHTML = ''; // Clear previous results
+
+    if (searchQuery) {
+        const foundUsers = users.filter(user => user.includes(searchQuery));
+
+        if (foundUsers.length > 0) {
+            foundUsers.forEach(user => {
+                const userDiv = document.createElement('div');
+                userDiv.textContent = user;
+                userDiv.classList.add('user-result');
+                userDiv.addEventListener('click', () => requestDM(user));
+                userResults.appendChild(userDiv);
+            });
+        } else {
+            userResults.textContent = 'No users found';
+        }
+    }
+});
+
+// Request a DM with the user
+function requestDM(user) {
+    document.getElementById('dm-user').textContent = user;
+    document.getElementById('dm-container').style.display = 'block';
 }
 
-h1, h2, h3 {
-    margin: 0;
+// Sending messages in the DM
+document.getElementById('dm-send-btn').addEventListener('click', sendMessage);
+document.getElementById('dm-input').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        sendMessage();
+    }
+});
+
+function sendMessage() {
+    const message = document.getElementById('dm-input').value.trim();
+    const chatBox = document.getElementById('chat-box');
+
+    if (message) {
+        const messageElement = document.createElement('div');
+        messageElement.textContent = message;
+        messageElement.classList.add('message');
+        chatBox.appendChild(messageElement);
+        chatBox.scrollTop = chatBox.scrollHeight;
+        document.getElementById('dm-input').value = ''; // Clear input field
+    }
 }
 
-/* Login page */
-.login-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-}
-
-input[type="text"] {
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-button {
-    padding: 10px 20px;
-    margin-top: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-/* App page */
-.app-container {
-    padding: 20px;
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.search-container {
-    margin-bottom: 20px;
-}
-
-.user-results {
-    margin-bottom: 20px;
-}
-
-.dm-container {
-    border-top: 1px solid #ccc;
-    padding-top: 10px;
-}
-
-.chat-box {
-    height: 200px;
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 10px;
-}
-
-.input-area {
-    display: flex;
-}
-
-.input-area input[type="text"] {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-right: 10px;
-}
-
-/* Dark Mode */
-body.dark-mode {
-    background-color: #333;
-    color: white;
-}
-
-body.dark-mode input[type="text"], body.dark-mode .chat-box {
-    background-color: #555;
-    color: white;
-}
-
-body.dark-mode button {
-    background-color: #444;
-}
+// Toggle dark mode
+document.getElementById('dark-mode-toggle').addEventListener('click', function() {
+    document.body.classList.toggle('dark-mode');
+});
